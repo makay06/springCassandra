@@ -1,8 +1,10 @@
 package com.example.cassandra.demo.controller;
+import com.example.cassandra.demo.model.Region;
 import com.example.cassandra.demo.repository.WeatherRepository;
 
 import com.example.cassandra.demo.ResouceNotFoundException;
 import com.example.cassandra.demo.model.City;
+import com.example.cassandra.demo.model.Region;
 import com.example.cassandra.demo.repository.WeatherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,15 @@ public class WeatherController {
 
             return cityRepository.findAll();
         }
+
+    @GetMapping("/Region")
+    public Region getregions(){
+        Region regionObj =new Region();
+        regionObj.average=cityRepository.findAll().stream().mapToDouble(i->i.getDegree()).average();
+        regionObj.listCity=cityRepository.findAll();
+
+        return regionObj;
+    }
 
         @PutMapping("City/{id}")
         public ResponseEntity<City> updatecity(@PathVariable(value = "id") Integer cityId,
